@@ -3,8 +3,9 @@
 	include 'includes/functions.php';
 	session_start();
 	
-	if (isset($_SESSION['user'])) {
-		$user = $_SESSION['user'];
+	if (isset($_SESSION['user']) || isset($_GET['user'])) {
+		$user = (isset($_SESSION['user'])?$_SESSION['user']:$_GET['user']);
+		$_SESSION['user'] = $user;
 		$loggedIn = true;
 		$user_perm = userLevel($user);
 	} else {
@@ -18,7 +19,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo $appname; ?></title>
+<title><?php echo APPNAME; ?></title>
 <script src="js/jquery-1.5.min.js"></script>
 <script src="js/jobdash.js"></script>
 <!--[if lt IE 9]>
@@ -36,6 +37,7 @@
 		include('includes/login.php');
 	} else {
 		//load user header
+		echo "Hello :)";
 	}
 ?>
   </header>

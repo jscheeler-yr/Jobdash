@@ -1,14 +1,17 @@
 <?php //includes/functions.php
 
-	$dbhost = "localhost";
-	$dbuser = "root";
-	$dbpass = "";
-	$dbname = "jobdash";
-	$appname = "Jobdash v2.0";
+	define("DBHOST", "localhost");
+	define("DBUSER", "root");
+	define("DBPASS", "");
+	define("DBNAME", "jobdash");
+	define("APPNAME", "Jobdash v2.0");
+	define("USERTABLE", "users");
 	
+	$connect = connect();
 	//Function to open database connection
 	function connect() {
-		$connect = mysql_connect($db_host, $dbuser, $dbpass, $dbname);
+		$connect = mysql_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+		mysql_select_db(DBNAME, $connect);
 		
 		if (!$connect) {
 			header("Location: error");
@@ -26,6 +29,28 @@
 	function queryMySQL($query) {
 		$result = mysql_query($query) or die(mysql_error());
 		return $result;
+	}
+	
+	//login function
+	function login($email, $password) {
+		$saltResult = queryMySQL("SELECT salt FROM ". USERTABLE ." WHERE email='$email' LIMIT 1");
+		
+		if (!$saltResult) {
+			return false;
+		} else {
+			$row = mysql_fetch_array($saltResult);
+			$salt = $row['salt'];
+			
+			$hash = md5($password . $salt);
+			$checkUser = queryMySQL("SELECT id FROM ". USERTABLE ." WHERE email='$email' AND password='$hash' LIMIT 1");
+			$row = mysql_fetch_array($checkUser);
+			
+			if (count($row) != 1) {
+				return false;
+			} else {				
+				return $row['id'];
+			}
+		}		
 	}
 	
 	//log out session destroy
@@ -48,7 +73,7 @@
 	
 	//Return user permission levels
 	function userLevel($user) {
-		$result = queryMySQL("SELECT * FROM $userTable WHERE id='$user'");
+		$result = queryMySQL("SELECT * FROM ". USERTABLE ." WHERE id='$user'");
 		
 		if (mysql_num_rows($result)) {
 			$row = mysql_fetch_array($result);

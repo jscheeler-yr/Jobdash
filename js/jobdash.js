@@ -2,16 +2,12 @@
 
 function submitLogin(username, password) {
 	$.ajax({
-		url: "scripts/login.php",
-		data: ({email: username, password: password}),
+		url: "includes/login.php",
+		data: ({loginFld: 'login', email: username, password: password}),
 		type: "POST",
 		dataType: "text",
 		success: function (result) {
-			if (result) {
-				return true;
-			} else {
-				return false;
-			}
+			return result;
 		}
 	});
 }
