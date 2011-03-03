@@ -1,20 +1,67 @@
 @charset "utf-8";
 /* CSS Document */
 
-html, body {margin:0; padding:0; height:100%;}
-body {position:relative; font-family:Arial, Helvetica, sans-serif; color:#ffffff;}
-header {display:block; width:960px; margin:0 auto;}
-img {border:0; display:block;}
-div {overflow:hidden;}
-#header {width:100%; height:70px; padding-top:10px; background:url(../images/header_bg.gif);}
-#title {width:181px; height:25px; background:url(../images/logo.png) no-repeat; float:left;}
-#login {float:right;}
-#frm_login input {border:1px solid #333; width:124px; padding:0px; background-color:#666; color:#ffffff; height:20px; font-size:11px; float:left; margin-right:5px;}
-#frm_login #btn_login {float:left;}
-.hidden {display:none;}
-button {border-style:none;}
-.submit, .submit:visited {background: #222 url(../images/alert-overlay.png) repeat-x; display: inline-block; padding: 5px 10px 6px; color: #fff; text-decoration: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border-bottom: 1px solid rgba(0,0,0,0.25); position: relative; cursor: pointer;}
-.submit:hover { background-color: #111; color: #fff; }
-.submit:active { top: 1px; }
-.small.submit, .small.submit:visited { font-size: 9px; padding:3px 7px 4px; }
-.pink {background-color:#FF0099;}
+html, body	{margin:0; padding:0; height:100%;}
+body				{position:relative; font-family:Arial, Helvetica, sans-serif; color:#ffffff; background-color:#E0E0E0;}
+img 				{border:0; display:block;}
+div 				{overflow:hidden;}
+a						{text-decoration:none; outline:none;}
+
+#container {min-height:100%; position:relative;}
+
+#header	{height:70px;}
+#footer	{height:50px; position:absolute; bottom:0px;}
+#body {padding:10px; padding-bottom:50px;}
+.filmStrip {width:100%; background:url(../images/header_bg.gif);  position:relative;}
+.container {display:block; width:960px; margin:0 auto; position:relative; height:inherit;}
+
+.paddingT10 {padding-top:10px;}
+
+#title	{width:480px; height:25px; background:url(../images/spritesHome.png) no-repeat top left; float:left;}
+
+#frm_login input 			{border:1px solid #333; width:124px; padding:0px; background-color:#666; color:#ffffff; height:20px; font-size:11px; float:right; margin-right:5px;}
+#frm_login #btn_login	{width:45px; height:22px; float:right;}
+#error 								{color:#F00; font-weight:bold;}
+
+#userImg					{float:right; width:40px; height:40px; padding-left:10px;}
+#userNameTitle		{text-align:right;}
+#userNameTitle p	{margin:1px;}
+
+button 					{border-style:none;}
+.submit:hover		{background-color: #111; color: #fff; }
+.submit:active 	{top: 1px;}
+.submit, .submit:visited 	{background: #222 url(../images/alert-overlay.png) repeat-x; display: inline-block; padding: 5px 10px 6px; color: #fff; text-decoration: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border-bottom: 1px solid rgba(0,0,0,0.25); position: relative; cursor: pointer;}
+.small.submit, .small.submit:visited {font-size: 9px; padding:3px 7px 4px;}
+
+.hidden 		{display:none;}
+.font10			{font-size:10px;}
+.font12			{font-size:12px;}
+.font14			{font-size:14px;}
+.font18			{font-size:18px;}
+.trebuchet	{font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;}
+.tahoma			{font-family:Tahoma, Geneva, sans-serif;}
+.greyLink		{color:#CCC;}
+.bold				{font-weight:bold;}
+.spriteLink	{display:inline-block; position:relative;}
+.textLeft		{text-align:left;}
+.textRight	{text-align:right;}
+
+.headerTopRight {float:right; width:480px; overflow:hidden;}
+.headerTabs, #headerUserNav	{width:480px; position:absolute; bottom:0px;}
+#headerUserNav {right:0px;}
+#headerUserNav a {padding:5px 7px; display:inline-block;}
+
+.headerTabs .spriteLink	{width:111px; height:24px; background:url(../images/spritesHome.png) bottom left no-repeat; line-height:24px; text-align:center;}
+.headerTabs a.spriteLink {color:#CCC;}
+.headerTabs a.spriteLink:hover, .headerTabs a.active {background-position:-111px bottom;}
+#viewByProject {left:-3px;}
+#viewByResource {left:-13px;}
+#print, #export {background-image:none; width:50px; left:-13px;}
+a.greyBg:hover {background-color:#333;}
+
+
+#footerTabs {position:relative;}
+.footerTab {display:inline-block; height:41px; width:110px; background:url(../images/spritesFooterTabs.png) bottom left no-repeat; margin:0px -5px;}
+.footerTabLink {display:block; height:34px; width:104px; background:url(../images/spritesFooterTabs.png) -3px top no-repeat; margin-left:3px; color:#262626; text-align:center; line-height:32px;}
+.footerTabFirst {margin-left:3px !important;}
+a.footerTabLink:hover, a.footerTabLink.active {background-position:-3px -34px;}

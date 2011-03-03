@@ -6,7 +6,15 @@
 	define("DBNAME", "jobdash");
 	define("APPNAME", "Jobdash v2.0");
 	define("USERTABLE", "users");
-	
+	define("DOC_ROOT", "/Jobdash/");
+/*
+	define("DBHOST", "mysql50-53.wc2.dfw1.stabletransit.com");
+	define("DBUSER", "499656_admin");
+	define("DBPASS", "6d1RYpDOc0");
+	define("DBNAME", "499656_area601");
+	define("APPNAME", "Jobdash v2.0");
+	define("USERTABLE", "jobdash_users");
+*/	
 	$connect = connect();
 	//Function to open database connection
 	function connect() {
@@ -33,22 +41,20 @@
 	
 	//login function
 	function login($email, $password) {
-		$saltResult = queryMySQL("SELECT salt FROM ". USERTABLE ." WHERE email='$email' LIMIT 1");
-		
-		if (!$saltResult) {
+		$saltResult = mysql_query("SELECT salt FROM ". USERTABLE ." WHERE email='$email' LIMIT 1");
+		$row = mysql_fetch_array($saltResult);
+		if (!$row) {
 			return false;
 		} else {
-			$row = mysql_fetch_array($saltResult);
 			$salt = $row['salt'];
-			
 			$hash = md5($password . $salt);
-			$checkUser = queryMySQL("SELECT id FROM ". USERTABLE ." WHERE email='$email' AND password='$hash' LIMIT 1");
-			$row = mysql_fetch_array($checkUser);
-			
-			if (count($row) != 1) {
+			$checkUser = queryMySQL("SELECT id FROM ". USERTABLE ."  WHERE email='$email' AND password='$hash' LIMIT 1");
+			$userID = mysql_fetch_array($checkUser);
+
+			if (!$userID) {
 				return false;
 			} else {				
-				return $row['id'];
+				return $userID['id'];
 			}
 		}		
 	}

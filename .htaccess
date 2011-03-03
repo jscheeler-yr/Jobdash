@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteBase /Jobdash
+RewriteRule ^\.htaccess$ - [F]
+
+RewriteRule ^scripts/login$ includes/login.php [QSA,NC,L]
+RewriteRule ^logout$ includes/login.php?logout=true [NC,L]

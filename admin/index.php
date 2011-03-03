@@ -1,6 +1,5 @@
 <?php
-
-	include '/includes/functions.php';
+	include '../includes/functions.php';
 	session_start();
 	
 	if (isset($_SESSION['user']) || isset($_GET['user'])) {
@@ -12,6 +11,15 @@
 		$loggedIn = false;
 	}
 	
-	include '/header.php';
-	require_once '/footer.php';
+	include '../header.php';
 ?>
+<div id="bodyContainer">
+
+</div>
+
+<?php
+	require_once '../footer.php';
+?>
+
+</body>
+</html>
