@@ -1,7 +1,6 @@
 		<div id="userInfo" class="headerTopRight">
 <?php
 	// Get user information.  Picture, First/Last names, title
-	$userInfo = mysql_fetch_array(queryMySQL("SELECT firstname, lastname, picture, titleID FROM " . USERTABLE . " WHERE id='$user' LIMIT 1"));
 	$userName = ucfirst($userInfo['firstname']) . " " . ucfirst($userInfo['lastname']);
 	$userTitleID = $userInfo['titleID'];
 	$userTitle = mysql_fetch_array(queryMySQL("SELECT full FROM user_titles WHERE id='$userTitleID' LIMIT 1"));

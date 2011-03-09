@@ -1,15 +1,34 @@
+<?php
+
+	include '/includes/functions.php';
+	session_start();
+	
+	if (isset($_SESSION['user']) || isset($_GET['user'])) {
+		$user = (isset($_SESSION['user'])?$_SESSION['user']:$_GET['user']);
+		$_SESSION['user'] = $user;
+		$loggedIn = true;
+		$userInfo = userInfo($user);
+		$user_perm = $userInfo['permissionsID'];
+	} else {
+		$loggedIn = false;
+	}
+
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="shortcut icon" href="<?php echo DOC_ROOT; ?>images/favicon.ico" />
 <title><?php echo APPNAME; ?></title>
 <script src="<?php echo DOC_ROOT; ?>js/jquery-1.5.min.js"></script>
 <script src="<?php echo DOC_ROOT; ?>js/jobdash.js"></script>
+<script src="<?php echo DOC_ROOT; ?>js/jquery.tablesorter.js"></script>
+<script src="<?php echo DOC_ROOT; ?>js/jquery.tablesorter.pager.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/main.css" media="screen" />
+<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/table.css" media="screen" />
 </head>
 
 <body>
@@ -31,3 +50,5 @@
 ?>
   </header>
 </div>
+<div id="body">
+	<div class="container">

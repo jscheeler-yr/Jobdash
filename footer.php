@@ -1,3 +1,5 @@
+  </div>
+</div>
 <div id="footer" class="filmStrip">
 	<div class="container">
   	<div id="footerTabs">

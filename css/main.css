@@ -16,6 +16,9 @@ a						{text-decoration:none; outline:none;}
 .container {display:block; width:960px; margin:0 auto; position:relative; height:inherit;}
 
 .paddingT10 {padding-top:10px;}
+.paddingL10 {padding-left:10px;}
+.marginL10	{margin-left:10px;}
+.nomargin		{margin:0px;}
 
 #title	{width:480px; height:25px; background:url(../images/spritesHome.png) no-repeat top left; float:left;}
 
@@ -30,8 +33,16 @@ a						{text-decoration:none; outline:none;}
 button 					{border-style:none;}
 .submit:hover		{background-color: #111; color: #fff; }
 .submit:active 	{top: 1px;}
-.submit, .submit:visited 	{background: #222 url(../images/alert-overlay.png) repeat-x; display: inline-block; padding: 5px 10px 6px; color: #fff; text-decoration: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border-bottom: 1px solid rgba(0,0,0,0.25); position: relative; cursor: pointer;}
+.submit, .submit:visited 	{background: #222 url(../images/alert-overlay.png) repeat-x; display: inline-block; margin:0px 3px 3px 3px; padding: 5px 10px 6px; color: #fff; text-decoration: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border-bottom: 1px solid rgba(0,0,0,0.25); position: relative; cursor: pointer;}
 .small.submit, .small.submit:visited {font-size: 9px; padding:3px 7px 4px;}
+.medium.submit, .medium.submit:visited 		{ font-size: 13px; font-weight: bold; line-height: 1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
+.orange.submit, .orange.submit:visited	{background-color:#ff5c00;}
+.orange.submit:hover							{ background-color: #d45500; }
+.red.submit, .red.submit:visited	{background-color:#e33100;}
+.red.submit:hover							{ background-color: #872300; }
+.green.submit, .greenv.submit:visited	{background-color:#00B336;}
+.green.submit:hover							{ background-color: #008528; }
+
 
 .hidden 		{display:none;}
 .font10			{font-size:10px;}
@@ -45,6 +56,8 @@ button 					{border-style:none;}
 .spriteLink	{display:inline-block; position:relative;}
 .textLeft		{text-align:left;}
 .textRight	{text-align:right;}
+.left 			{float:left;}
+.right			{float:right;}
 
 .headerTopRight {float:right; width:480px; overflow:hidden;}
 .headerTabs, #headerUserNav	{width:480px; position:absolute; bottom:0px;}
@@ -65,3 +78,9 @@ a.greyBg:hover {background-color:#333;}
 .footerTabLink {display:block; height:34px; width:104px; background:url(../images/spritesFooterTabs.png) -3px top no-repeat; margin-left:3px; color:#262626; text-align:center; line-height:32px;}
 .footerTabFirst {margin-left:3px !important;}
 a.footerTabLink:hover, a.footerTabLink.active {background-position:-3px -34px;}
+
+#body {color:#333;}
+#admin_action div {height:45px; line-height:45px;}
+.row1 {background-color:#B0AAA6;}
+.row2 {background-color:#C3BEBB;}
+.divider {padding-bottom:20px; margin-bottom:20px; border-bottom:1px dashed #151515;}

@@ -4,3 +4,6 @@ RewriteRule ^\.htaccess$ - [F]
 
 RewriteRule ^scripts/login$ includes/login.php [QSA,NC,L]
 RewriteRule ^logout$ includes/login.php?logout=true [NC,L]
+
+RewriteRule ^admin/user/add$ admin/manageUsers.php?action=add [NC,L]
+RewriteRule ^admin/user/add/submit$ admin/includes/userController.php?action=add [QSA,NC,L]
