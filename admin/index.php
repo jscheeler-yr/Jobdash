@@ -27,7 +27,30 @@
 		$regionsHTML .= '<option value="'.$row['id'].'" '. $disabled .'>'.$row['name'].'</option>';
 	}
 	
+	if(isset($_GET['action'])){
+		$showMessage = "show";
+		switch ($_GET['action']) {
+			case 'userAdded':
+				$uid = $_GET['uid'];
+				$userAdded = mysql_fetch_array(queryMySQL("SELECT firstname, lastname FROM ". USERTABLE ." WHERE id = '$uid' LIMIT 1"));
+				$message = "You have successfully added user " . $userAdded['firstname'] . " " . $userAdded['lastname'];
+				break;
+			case 'userDeleted':
+				$message = "You have successfully deleted " . $_GET['name'];
+				break;
+			case 'userUpdated':
+				$uid = $_GET['uid'];
+				$userUpdated = mysql_fetch_array(queryMySQL("SELECT firstname, lastname FROM ". USERTABLE ." WHERE id = '$uid' LIMIT 1"));
+				$message = "You have successfully updated information for user " . $userUpdated['firstname'] . " " . $userUpdated['lastname'];
+				break;
+		}
+	} else {
+		$showMessage = "hide";
+		$message ="";
+	}
+	
 ?>
+		<div id="responseMessage"><?php echo $message; ?></div>
     <div id="admin_action" class="divider">
       <h3>What would you like to do?</h3>
       <div class="row1"><input type="radio" name="action" value="new_user" /> <span>Add a new user</span></div>
@@ -52,12 +75,7 @@
 $(document).ready(function() {  
 	//Hide select region section
 	$('#chooseUser').hide(); 
-	 
-	// call the tablesorter plugin 
-	$("table").tablesorter({
-		widgets: ['zebra'],
-		headers: { 0:{sorter: false}}
-	}); 
+	$('#responseMessage').<?php echo $showMessage;?>();
 	
 	/* --- User actions --- */
 	//After user selects what they would like to do
@@ -74,10 +92,52 @@ $(document).ready(function() {
 			if ($('select option:selected').val() != "blank") {
 				$.get('includes/chooseUser.php', {region: $('select option:selected').val()}, function(html) {
 					$('#usersTable').html(html);
+						 
+					// call the tablesorter plugin 
+					$("table").tablesorter({
+						widgets: ['zebra'],
+						headers: { 0:{sorter: false}}
+					}); 
+
 				});
 			}
 	});
 });
+
+function cancel() {
+	window.location = "/";
+}
+
+function deleteUser() {
+	var dialog = '<div id="dialog-confirm" title="Delete user?"><p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Do you really want to remove <span id="deleteUserName"></span> from Jobdash?</p></div>';
+	$('body').append(dialog);
+	var uid = $("input[name='delete']:checked").val();
+	if (uid != "") {
+		$.get('user/delete', {id: uid, getName: 'true'}, function (html) {
+				$('#dialog-confirm #deleteUserName').html(html);
+		});	
+		$( "#dialog-confirm" ).dialog({
+			resizable: false,
+			height:200,
+			width:300,
+			modal: true,
+			buttons: {
+				"Delete user": function() {
+					window.location = 'user/delete/' + uid;
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+
+	}
+}
+
+function next() {
+	var uid = $("input[name='delete']:checked").val();
+	window.location = 'user/edit/' + uid;
+}
 </script>
 
 </body>

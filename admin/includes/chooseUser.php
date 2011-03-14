@@ -24,14 +24,19 @@
 		$title = mysql_fetch_array(queryMySQL("SELECT * FROM user_titles WHERE id='$titleID' LIMIT 1"));
 		
 		//format the date
-		list($date, $time) = explode(" ", $users['lastLoggedIn']);
-		list($year, $month, $day) = explode("-", $date);
-		list($hour, $minute, $seconds) = explode(":", $time);
+		if ($users['lastLoggedIn'] != NULL ) {
+			list($date, $time) = explode(" ", $users['lastLoggedIn']);
+			list($year, $month, $day) = explode("-", $date);
+			list($hour, $minute, $seconds) = explode(":", $time);
+			$lastLoggedIn = date('n/j/Y @ g:ia', mktime($hour, $minute, $seconds, $month, $day, $year));
+		} else {
+			$lastLoggedIn = "N\A";
+		}
 		
-		$lastLoggedIn = date('n/j/Y @ g:ia', mktime($hour, $minute, $seconds, $month, $day, $year));
+		
 ?>
             <tr>
-              <td class="noBorder"><input type="radio" id="delete" value="1" /></td>
+              <td class="noBorder"><input type="radio" id="delete" name="delete" value="<?php echo $users['id'];?>" /></td>
               <td><?php echo $users['lastname'] .", " . $users['firstname']; ?></td>
               <td><?php echo $dept['name']; ?></td>
               <td><?php echo $title['full']; ?></td>
@@ -43,7 +48,7 @@
           </tbody>
         </table>
         <div class="right">
-        	<a class="submit orange medium">Cancel</a>
-          <a class="submit red medium">Delete</a>
-          <a class="submit green medium">Next</a>
+        	<a class="submit orange medium" onclick="cancel();">Cancel</a>
+          <a class="submit red medium" onclick="deleteUser();">Delete</a>
+          <a class="submit green medium" onclick="next();">Next</a>
         </div>

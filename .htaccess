@@ -1,3 +1,5 @@
+#php_value include_path ".:/usr/share/pear:/usr/share/php:/mnt/stor3-wc2-dfw1/499656/www.area601.net/web/pear_modules"
+
 RewriteEngine on
 RewriteBase /Jobdash
 RewriteRule ^\.htaccess$ - [F]
@@ -5,5 +7,23 @@ RewriteRule ^\.htaccess$ - [F]
 RewriteRule ^scripts/login$ includes/login.php [QSA,NC,L]
 RewriteRule ^logout$ includes/login.php?logout=true [NC,L]
 
+#### Project Values ####
+RewriteRule ^project$	project.php?action=add [NC,L]
+RewriteRule ^project/edit/([0-9]+)$	project.php?action=edit&pid=$1 [NC,L]
+RewriteRule	^project/([a-z]+)/submit$	includes/projectController.php?action=$1 [QSA,NC,L]
+
+#### Admin values ####
+RewriteRule ^admin$ admin/index.php [NC,L]
+RewriteRule ^admin/$ admin/index.php [QSA,NC,L]
+
 RewriteRule ^admin/user/add$ admin/manageUsers.php?action=add [NC,L]
-RewriteRule ^admin/user/add/submit$ admin/includes/userController.php?action=add [QSA,NC,L]
+RewriteRule ^admin/user/add/success/([0-9]+)$ admin?action=userAdded&uid=$1 [R,NC,L]
+RewriteRule ^admin/user/([a-z]+)/submit$ admin/includes/userController.php?action=$1 [QSA,NC,L]
+
+RewriteRule ^admin/user/delete/([0-9]+)$ admin/includes/userController.php?action=delete&id=$1 [NC,L]
+RewriteRule ^admin/user/delete/success/([A-Za-z0-9\s\%]+)$ admin?action=userDeleted&name=$1 [R,NC,L]
+RewriteRule ^admin/user/delete$ admin/includes/userController.php?action=delete [QSA,NC,L]
+
+RewriteRule ^admin/user/edit/([0-9]+)$ admin/manageUsers.php?action=edit&uid=$1 [NC,L]
+RewriteRule ^admin/user/edit/success/([0-9]+)$ admin?action=userUpdated&uid=$1 [R,NC,L]
+RewriteRule ^admin/user/edit/checkpass$ admin/includes/userController.php?action=edit&getPass=true [QSA,NC,L]

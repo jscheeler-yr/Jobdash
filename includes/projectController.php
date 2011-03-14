@@ -1,38 +1,64 @@
 <?php
-	require_once('../../includes/functions.php');
+	session_start();
+	require_once('functions.php');
 	
 	if (isset($_GET['action'])) {
 		switch ($_GET['action']) {
 			case 'add':
-				$firstname = sanitizeString($_POST['firstname']);
-				$lastname = sanitizeString($_POST['lastname']);
-				$departmentID = $_POST['department'];
-				$titleID = $_POST['selectTitle'];
-				$phone = sanitizeString($_POST['phone']);
-				$email = sanitizeString($_POST['email']);
-				$regionID = $_POST['region'];
-				$permissionsID = $_POST['permissions'];
+				$uid = $_SESSION['user'];
+				$projectName = addslashes(sanitizeString($_POST['name']));
+				$projectType = $_POST['type'];
+				$jobNum = sanitizeString($_POST['jobNum']);
 				
-				$password = generatePassword();
-				$salt = generateSalt();
-				
-				$md5 = md5($password . $salt);
-				
-				$addResult = queryMySQL("INSERT INTO ". USERTABLE ." (firstname, lastname, email, departmentID, titleID, phone, regionID, permissionsID, password, salt) 
-																 VALUES('$firstname', '$lastname', '$email', '$departmentID', '$titleID', '$phone', '$regionID', '$permissionsID', '$md5', '$salt')");
-				if (!$addResult) {
+				$addResult = queryMySQL("INSERT INTO projects (name, jobNumber, typeID, owner_userID) VALUES('$projectName', '$jobNum', '$projectType', '$uid')");
+																 
+				//$addResult = true;
+				if (!addResult) {
 					//header("Location: /admin/user/add/fail");
 					echo "fail";
 				} else {
-					//If successful, send user an email to the user to let them know they are signed up and what their password is.
-					$uid = mysql_fetch_array(queryMySQL("SELECT id FROM  ". USERTABLE ." WHERE email = '$email' ORDER BY id DESC LIMIT 1"));
+					//If successful, get the id of the project, then continue to add milestones and tasks
+					$projectID = mysql_fetch_array(queryMySQL("SELECT id FROM  projects WHERE name='$projectName' AND jobNumber='$jobNum' AND typeID='$projectType' AND owner_userID='$uid' ORDER BY id DESC LIMIT 1"));
+										//Get milestone dates
+					$pid = $projectID['id'];										
+					$milestones = $_POST['msDate'];
+					$countMS = count($milestones);
+					$milestoneType = $_POST['msType'];
 					
-					newUserEmail($uid['id'], $password);
+					$msValues = "";
+					//Create values statements
+					foreach ($milestones as $key=>$ms) {
+						$msValues .= "('$ms', '".$milestoneType[$key]."' ,'$pid')";
+						if ($key < $countMS-1) {
+							$msValues .= ", ";
+						}
+					}
+					$msQuery = "INSERT INTO milestones (milestone, milestone_typeID, projectID) VALUES $msValues";
+					//echo $msQuery;
+					//Insert milestones into table
+					queryMySQL($msQuery);
 					
-					header("Location: success/" . $uid['id']);
-					//echo "success";
-					//echo "<br> $password";
-				}								
+					//Tasks
+					$taskNames = $_POST['taskName'];
+					$countTasks = count($taskNames);
+					$taskResource = $_POST['resource'];
+
+					$taskValues = "";
+					//Create values statements
+					foreach ($taskNames as $key=>$task) {
+						$task = addslashes($task);
+						$taskValues .= "('$task', '".$taskResource[$key]."' ,'$pid')";
+						if ($key < $countTasks-1) {
+							$taskValues .= ", ";
+						}
+					}
+					
+					//Insert milestones into table
+					queryMySQL("INSERT INTO tasks (name, userID, projectID) VALUES $taskValues");
+					
+					header("Location: " . DOC_ROOT);
+				}		
+				
 				break;
 			case 'edit':
 				$uid = $_GET['uid'];

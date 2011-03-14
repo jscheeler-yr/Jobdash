@@ -1,9 +1,16 @@
 <?php //includes/functions.php
-
+	include('Mail.php');
+	include('Mail/mime.php');
 	define("DBHOST", "localhost");
 	define("DBUSER", "root");
 	define("DBPASS", "");
 	define("DBNAME", "jobdash");
+	
+	
+	/*define("DBHOST", "mysql50-81.wc2.dfw1.stabletransit.com");
+	define("DBUSER", "499656_jobdash");
+	define("DBPASS", "Passw0rd");
+	define("DBNAME", "499656_jobdash");*/
 	define("APPNAME", "Jobdash v2.0");
 	define("USERTABLE", "users");
 	define("DOC_ROOT", "/Jobdash/");
@@ -22,7 +29,7 @@
 		mysql_select_db(DBNAME, $connect);
 		
 		if (!$connect) {
-			header("Location: error");
+			echo mysql_error();
 		} else {
 			return $connect;
 		}
@@ -137,6 +144,45 @@ function generatePassword ($length = 8) {
 	// done!
 	return $password;
 	
+}
+
+function newUserEmail($uid, $password) {
+	$userInfo = mysql_fetch_array(queryMySQL("SELECT * FROM " .USERTABLE." WHERE id='$uid' LIMIT 1"));
+	$recipient = $userInfo['email'];
+	$name = $userInfo['firstname'] . " " .$userInfo['lastname'];
+	
+	echo $email;
+	
+	$from = "jobdash@yr.com";
+	$subject = "Welcome to Jobdash";
+	$html = <<<html
+	<html><body>
+	<h3>Welcome to Jobdash</h3>
+	<p>
+	Dear $name,<br />
+	An account has been created for you on Jobdash. To start using the application go to <a href="http://jobdash.area601.net" target="_blank">jobdash.area601.net</a> and download the application.  The link to download Jobdash can be found at the bottom right of the page.</p>
+	<p>Please contact your traffic person or project manager if you have any questions.</p>
+	<p>Here are your log in credentials.  <b>Please do not misplace this</b></p>
+	<p>Username: $recipient</p>
+	<p>Password: $password</p>
+	<p>The Jobdash Team</p>
+html;
+	
+	$headers['From'] = $from;
+	$headers['Subject'] = $subject;
+	// Instantiate Mail_mime Class
+	$mimemail = new Mail_mime();
+	// Set HTML Message
+	$mimemail->setHTMLBody($html);
+	// Build Message
+	$message = $mimemail->get();
+	// Prepare the Headers
+	$mailheaders = $mimemail->headers($headers);
+	// Create New Instance of Mail Class
+	$email =& Mail::factory('mail');
+	// Send the E-mail Already!
+	$email->send($recipient, $mailheaders, $message) or die("Can't send message!");
+
 }
 
 ?>

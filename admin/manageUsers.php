@@ -4,11 +4,16 @@
 	if ($_GET['action'] == 'add') {
 		$action = 'add';
 		$pageTitle = "Add User";
-		$frmAction ='admin/user/add/submit';
+		$frmAction ='add/submit';
+		$btnAction = 'Add User';
+		
 	} else if ($_GET['action'] == 'edit') {
+		$uid = $_GET['uid'];
+		$editUser = mysql_fetch_array(queryMySQL("SELECT * FROM " . USERTABLE . " WHERE id='$uid'"));
 		$action = 'edit';
-		$pageTitle = "Edit User";
-		$frmAction ='admin/user/edit/submit';
+		$pageTitle = "Edit User: " . $editUser['firstname'] . " " . $editUser['lastname'];
+		$frmAction ='submit?uid='.$uid;
+		$btnAction = 'Save';
 	}
 	
 	//Get the departments
@@ -83,9 +88,9 @@
 	if ($action == 'edit'){
 ?>
   	<p><label for="currentPassword">Current Password: </label>
-    <input type="input" id="currentPassword" name="currentPassword" /></p>
+    <input type="input" id="currentPassword" name="currentPassword" /><span class="error"></span></p>
   	<p><label for="password">Password: </label>
-    <input type="input" id="password" name="password" /></p>
+    <input type="input" id="password" name="password" /><span class="error"></span></p>
   	<p><label for="password2">Confirm Password: </label>
     <input type="input" id="password2" name="password2" /></p>
 <?php
@@ -108,8 +113,8 @@
 ?>
   </form>
  <div id="buttons">
-  <a id="btnCancel" class="submit orange medium">Cancel</a>
-  <a id="btnAddUser" class="submit green medium">Add User</a>
+  <a id="btnCancel" class="submit orange medium" onclick="cancel();">Cancel</a>
+  <a id="btnAddUser" class="submit green medium" onclick="frmSubmit();"><?php echo $btnAction; ?></a>
 </div>
 
 <?php
@@ -119,7 +124,67 @@
 $(document).ready(function() {  
 	//Send information to the add script (includes/addUser.php);
 	$('#frmUserInfo').attr('action', '<?php echo $frmAction; ?>');
+	
+
+<?php
+	if ($action == 'edit') {
+?>
+	var check = false;
+	if (!check) {
+		$('#currentPassword').blur(function() {
+			if ($(this).val() != ""){
+				$.get('checkpass', {uid: '<?php echo $uid; ?>', pass:$('#currentPassword').val()}, function (response) {
+						if (response != "true") {
+							$('#currentPassword').parent().children('.error').html('Wrong password');
+							check = true;
+						}
+				});	
+			}
+		});
+	}
+	
+	$('#currentPassword').focus(function() {
+		check = false;
+	});
+
+		$('#firstname').val('<?php echo $editUser['firstname'];?>');	
+		$('#lastname').val('<?php echo $editUser['lastname'];?>');	
+		$('#department option[value="<?php echo $editUser['departmentID'];?>"]').attr('selected', 'selected');	
+		$('#selectTitle option[value="<?php echo $editUser['titleID'];?>"]').attr('selected', 'selected');	
+		$('#phone').val('<?php echo $editUser['phone'];?>');
+<?php 
+			if ($user_perm != 3) {
+?>
+			
+		$('#region option[value="<?php echo $editUser['regionID'];?>"]').attr('selected', 'selected');			
+		$('#permissions option[value="<?php echo $editUser['permissionsID'];?>"]').attr('selected', 'selected');		
+<?php
+			}
+	}
+?>
+
 });
+
+function frmSubmit() {
+<?php if ($action=='edit') {?>
+	if ($('#currentPassword').val() != "") {
+		if ($('#password').val() != $('#password2').val()) {
+			$('#password').parent().children('.error').html('Passwords do not match');
+			return false;
+		} else {
+			return false;
+		}
+	} else {
+		$('#frmUserInfo').submit();
+	}
+<?php } else { ?>
+		$('#frmUserInfo').submit();
+<?php } ?>
+}
+
+function cancel() {
+	window.location = "<?php echo DOC_ROOT;?>admin/";
+}
 </script>
 
 </body>

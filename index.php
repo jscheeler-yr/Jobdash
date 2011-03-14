@@ -1,5 +1,4 @@
 <?php
-	
-	include '/header.php';
-	require_once '/footer.php';
+	include 'header.php';
+	require_once 'footer.php';
 ?>

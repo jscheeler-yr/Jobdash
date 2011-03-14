@@ -7,11 +7,11 @@ img 				{border:0; display:block;}
 div 				{overflow:hidden;}
 a						{text-decoration:none; outline:none;}
 
-#container {min-height:100%; position:relative;}
+#container {min-height:100%; position:relative; _height:100%}
 
 #header	{height:70px;}
 #footer	{height:50px; position:absolute; bottom:0px;}
-#body {padding:10px; padding-bottom:50px;}
+#body {padding:10px; padding-bottom:75px;}
 .filmStrip {width:100%; background:url(../images/header_bg.gif);  position:relative;}
 .container {display:block; width:960px; margin:0 auto; position:relative; height:inherit;}
 
@@ -23,7 +23,7 @@ a						{text-decoration:none; outline:none;}
 #title	{width:480px; height:25px; background:url(../images/spritesHome.png) no-repeat top left; float:left;}
 
 #frm_login input 			{border:1px solid #333; width:124px; padding:0px; background-color:#666; color:#ffffff; height:20px; font-size:11px; float:right; margin-right:5px;}
-#frm_login #btn_login	{width:45px; height:22px; float:right;}
+#frm_login #btn_login	{height:22px; float:right;}
 #error 								{color:#F00; font-weight:bold;}
 
 #userImg					{float:right; width:40px; height:40px; padding-left:10px;}
@@ -34,14 +34,16 @@ button 					{border-style:none;}
 .submit:hover		{background-color: #111; color: #fff; }
 .submit:active 	{top: 1px;}
 .submit, .submit:visited 	{background: #222 url(../images/alert-overlay.png) repeat-x; display: inline-block; margin:0px 3px 3px 3px; padding: 5px 10px 6px; color: #fff; text-decoration: none; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5); text-shadow: 0 -1px 1px rgba(0,0,0,0.25); border-bottom: 1px solid rgba(0,0,0,0.25); position: relative; cursor: pointer;}
-.small.submit, .small.submit:visited {font-size: 9px; padding:3px 7px 4px;}
+.small.submit, .small.submit:visited {font-size: 10px; font-weight: bold;  padding:3px 7px; line-height:1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
 .medium.submit, .medium.submit:visited 		{ font-size: 13px; font-weight: bold; line-height: 1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
 .orange.submit, .orange.submit:visited	{background-color:#ff5c00;}
 .orange.submit:hover							{ background-color: #d45500; }
 .red.submit, .red.submit:visited	{background-color:#e33100;}
 .red.submit:hover							{ background-color: #872300; }
-.green.submit, .greenv.submit:visited	{background-color:#00B336;}
+.green.submit, .green.submit:visited	{background-color:#00B336;}
 .green.submit:hover							{ background-color: #008528; }
+.blue.submit, .blue.submit:visited	{background-color:#00B336;}
+.blue.submit:hover							{ background-color: #008528; }
 
 
 .hidden 		{display:none;}
@@ -58,6 +60,9 @@ button 					{border-style:none;}
 .textRight	{text-align:right;}
 .left 			{float:left;}
 .right			{float:right;}
+.inline			{display:inline;}
+
+h3 {margin:.5em 0em}
 
 .headerTopRight {float:right; width:480px; overflow:hidden;}
 .headerTabs, #headerUserNav	{width:480px; position:absolute; bottom:0px;}
@@ -84,3 +89,11 @@ a.footerTabLink:hover, a.footerTabLink.active {background-position:-3px -34px;}
 .row1 {background-color:#B0AAA6;}
 .row2 {background-color:#C3BEBB;}
 .divider {padding-bottom:20px; margin-bottom:20px; border-bottom:1px dashed #151515;}
+
+/* Project Page */
+.form {display:inline-block; margin-left:25px;}
+label {display:inline-block; width:140px;}
+.msCol {display:inline-block; width:150px; margin-right:45px;}
+div[id|="ms"] {margin-top:10px;}
+#milestones {vertical-align:top;}
+.msButton {margin:0px 5px;}
