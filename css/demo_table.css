@@ -1,0 +1,13 @@
+table.taskDetails {color:#262626; margin-top:10px;}
+table.taskDetails thead tr, table.taskDetails tfoot tr {background-color:#756F6C; height:25px; vertical-align:middle;}
+table.taskDetails thead tr th {border:none; font-size:12px;}
+table.taskDetails thead tr th.divider {border-bottom:1px dashed #262626;}
+
+table.taskDetails td {font-size:11px;}
+table.taskDetails tbody tr.odd {background-color:#B0AAA6; height:20px;}
+table.taskDetails tbody tr.even {background-color:#C3BEBB; height:20px;}
+
+table.taskDetails tfoot th {text-align:right; padding:3px 10px;}
+table.taskDetails tfoot th a {color:#262626; font-size:11px;}
+
+table.detailsSub td img {margin:5px 0px 10px 0px;}

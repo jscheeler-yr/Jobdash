@@ -11,7 +11,7 @@ a						{text-decoration:none; outline:none;}
 
 #header	{height:70px;}
 #footer	{height:50px; position:absolute; bottom:0px;}
-#body {padding:10px; padding-bottom:75px;}
+#body {padding-bottom:75px;}
 .filmStrip {width:100%; background:url(../images/header_bg.gif);  position:relative;}
 .container {display:block; width:960px; margin:0 auto; position:relative; height:inherit;}
 

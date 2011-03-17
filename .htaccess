@@ -7,6 +7,9 @@ RewriteRule ^\.htaccess$ - [F]
 RewriteRule ^scripts/login$ includes/login.php [QSA,NC,L]
 RewriteRule ^logout$ includes/login.php?logout=true [NC,L]
 
+RewriteRule ^getProjects$ includes/getProjects.php [QSA,NC,L]
+RewriteRule ^getProjectData$ includes/getProjectData.php [QSA,NC,L]
+
 #### Project Values ####
 RewriteRule ^project$	project.php?action=add [NC,L]
 RewriteRule ^project/edit/([0-9]+)$	project.php?action=edit&pid=$1 [NC,L]

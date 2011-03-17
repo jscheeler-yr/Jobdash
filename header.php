@@ -1,7 +1,7 @@
 <?php
 	include 'includes/functions.php';
 	session_start();
-	
+	$regionID ="";
 	if (isset($_SESSION['user']) || isset($_GET['user'])) {
 		$user = (isset($_SESSION['user'])?$_SESSION['user']:$_GET['user']);
 		$_SESSION['user'] = $user;
@@ -20,17 +20,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <link rel="shortcut icon" href="<?php echo DOC_ROOT; ?>images/favicon.ico" />
 <title><?php echo APPNAME; ?></title>
-<script src="<?php echo DOC_ROOT; ?>js/jquery-1.5.min.js"></script>
+<script src="<?php echo DOC_ROOT; ?>js/jquery-1.4.min.js"></script>
 <script src="<?php echo DOC_ROOT; ?>js/jquery-ui-1.8.min.js"></script>
 <script src="<?php echo DOC_ROOT; ?>js/jobdash.js"></script>
 <script src="<?php echo DOC_ROOT; ?>js/jquery.tablesorter.js"></script>
 <script src="<?php echo DOC_ROOT; ?>js/jquery.tablesorter.pager.js"></script>
+<script src="<?php echo DOC_ROOT; ?>js/jquery.meio.mask.min.js"></script>
+<script src="<?php echo DOC_ROOT; ?>js/jquery.dataTables.min.js"></script>
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/main.css" media="screen" />
-<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/table.css" media="screen" />
-<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/redmond/jquery-ui-1.8.css" media="screen" />
+<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/demo_table_jui.css" media="screen" />
+<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/black-tie/jquery-ui-1.8.css" media="screen" /> 
+<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/demo_table.css" media="screen" />
 </head>
 
 <body>

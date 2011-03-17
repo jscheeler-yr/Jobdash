@@ -29,7 +29,7 @@
 		$btnAction = 'Save';
 		
 		$status = queryMySQL("SELECT * FROM task_status");
-		$statusHTML = "<select class='status' name='status'>";
+		$statusHTML = "<select class='status' name='status[]'>";
 		while ($row = mysql_fetch_array($status)) {
 			$statusHTML .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
 		}
@@ -51,6 +51,7 @@
 			$msTypeInput = '<input type="hidden" value="'.$typeID.'" name="msType[]" />';
 			$msDateInput = '<input type="hidden" value="'.$datePicked.'" name="msDate[]" />';
 			$milestonesHTML .= '<div id="ms-'.$iDate.'">'.$msIDInput.$msTypeInput.$msDateInput.'<span class="msCol txtMSDate">'.$datePicked.'</span><span class="msCol txtMSType">'.$msType.'</span> <span class="msCol"><img src="'.DOC_ROOT.'images/b_edit.png" width="16" height="16" alt="Edit" class="msButton inline Edit" /><img src="'.DOC_ROOT.'images/b_delete.png" width="16" height="16" alt="Delete" class="msButton inline DeleteDate" /></span></div>';
+			$iDate++;
 		}
 		
 		$tasks = queryMySQL("SELECT * FROM tasks WHERE projectID='$pid'");
@@ -74,7 +75,7 @@
     	<?php echo $typesHTML; ?>
     </select></p>
   	<p><label for="jobNum">Job Number: </label>
-    <input type="input" id="jobNum" name="jobNum" class="form" /></p>
+    <input type="input" id="jobNum" name="jobNum" class="form" alt="jobNum" /></p>
 		<div id="milestones">
       <div class="left"><label for="milestones">Milestones: </label></div>
       <div id="msList" class="form">
@@ -118,6 +119,7 @@
 	require_once 'footer.php';
 ?>
 <script type="text/javascript">
+$('input[name="jobNum"]').setMask('***-***-******');
 var date = 0;
 var $dialog = $('<div></div>');
 var iDate = 0; 
@@ -140,7 +142,7 @@ $(document).ready(function() {
 					});
 //If page is in edit mode
 <?php if ($action == 'edit') { ?>
-	$('#name').val('<?php echo $editProject['name'];?>');
+	$('#name').val('<?php echo stripslashes($editProject['name']);?>');
 	$('#type option[value="<?php echo $editProject['typeID'];?>"]').attr('selected', 'selected');
 	$('#jobNum').val('<?php echo $editProject['jobNumber'];?>');
 	$('.resource').each(function() {
@@ -259,7 +261,7 @@ function editDate(div) {
 function deleteDate(milestone) {
 <?php if ($action == 'edit') { ?>
 	if (milestone.attr('class') != "msButton inline DeleteDateAdd") {
-		var msID = milestone.siblings('input[name^="msID"]').val();
+		var msID = milestone.parent().parent().children('input[name^="msID"]').val();
 		var removeMS = '<input type="hidden" name="removeMS[]" value="'+msID+'" />';
 		$('#frmProjectInfo').append(removeMS);
 	}

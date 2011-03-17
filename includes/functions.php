@@ -46,6 +46,10 @@
 		return $result;
 	}
 	
+	function queryArray($query) {
+		$result = queryMySQL($query);
+		return mysql_fetch_array($result);
+	}
 	//login function
 	function login($email, $password) {
 		$saltResult = mysql_query("SELECT salt FROM ". USERTABLE ." WHERE email='$email' LIMIT 1");

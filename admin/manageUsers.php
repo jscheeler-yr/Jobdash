@@ -121,6 +121,7 @@
 	require_once '../footer.php';
 ?>
 <script type="text/javascript">
+$('input[name="phone"]').setMask('(999) 999-9999');
 $(document).ready(function() {  
 	//Send information to the add script (includes/addUser.php);
 	$('#frmUserInfo').attr('action', '<?php echo $frmAction; ?>');
