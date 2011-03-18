@@ -4,11 +4,14 @@ RewriteEngine on
 RewriteBase /Jobdash
 RewriteRule ^\.htaccess$ - [F]
 
+
 RewriteRule ^scripts/login$ includes/login.php [QSA,NC,L]
 RewriteRule ^logout$ includes/login.php?logout=true [NC,L]
 
-RewriteRule ^getProjects$ includes/getProjects.php [QSA,NC,L]
+RewriteRule ^getProjects/([0-9])$ includes/getProjects.php?regionID=$1 [QSA,NC,L]
 RewriteRule ^getProjectData$ includes/getProjectData.php [QSA,NC,L]
+RewriteRule ^getResources/([0-9])$ includes/getResources.php?regionID=$1 [QSA,NC,L]
+RewriteRule ^getResourceData$ includes/getResourceData.php [QSA,NC,L]
 
 #### Project Values ####
 RewriteRule ^project$	project.php?action=add [NC,L]
@@ -30,3 +33,5 @@ RewriteRule ^admin/user/delete$ admin/includes/userController.php?action=delete 
 RewriteRule ^admin/user/edit/([0-9]+)$ admin/manageUsers.php?action=edit&uid=$1 [NC,L]
 RewriteRule ^admin/user/edit/success/([0-9]+)$ admin?action=userUpdated&uid=$1 [R,NC,L]
 RewriteRule ^admin/user/edit/checkpass$ admin/includes/userController.php?action=edit&getPass=true [QSA,NC,L]
+
+RewriteRule ^([a-z]+)$ index.php?region=$1 [QSA,NC,L]

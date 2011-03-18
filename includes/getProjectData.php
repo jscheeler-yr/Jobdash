@@ -1,7 +1,9 @@
 <?php
+	session_start();
 	require_once('functions.php');
 	
 	$projID = $_GET['pid'];
+	$regionNameID = $_GET['regionID'];
 	$milestones = queryMySQL("SELECT * FROM milestones WHERE projectID = '$projID' ORDER BY milestone ASC");
 	$msList = "";
 	$msDescList = "";
@@ -66,7 +68,7 @@
   	<td width="574"></td>
     <td width="96" valign="top"><?php echo $msList; ?></td>
     <td width="174" valign="top"><?php echo $msDescList; ?></td>
-    <td wdith="24" align="center" valign="top"><a href="project/edit/<?php echo $projID;?>"><img src="images/icon_info.png" width="16" height="16" /></a><img src="images/icon_delete.png" width="16" height="16" /></td>
+    <td wdith="24" align="center" valign="top"><a href="project/edit/<?php echo $projID;?>"><img src="images/icon_info.png" width="16" height="16" /></a><?php if ($_SESSION['regionID'] == $regionNameID) { ?><img src="images/icon_delete.png" width="16" height="16" /><?php } ?></td>
   </tr>
   <tr>
   	<td colspan="4">
@@ -91,6 +93,7 @@
         	<tr>
           	<th colspan="6"><a href="project/edit/<?php echo $projID;?>">More Info</a></th>
           </tr>
+        </foot>
       </table>
     </td>
   </tr>

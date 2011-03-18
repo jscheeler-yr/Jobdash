@@ -2,6 +2,11 @@
 	session_start();
 	require_once('functions.php');
 	
+	$rid = $_SESSION['regionID'];
+	//Get the name of the region to return to.
+	$regionSQL = queryArray("SELECT name FROM region WHERE id='$rid'");
+	$region = strtolower(str_replace(" ", "", $regionSQL['name']));
+	
 	if (isset($_GET['action'])) {
 		$uid = $_SESSION['user'];
 		$date = date('Y-m-d h:i:s');
@@ -64,7 +69,7 @@
 					//Insert milestones into table
 					queryMySQL("INSERT INTO tasks (name, userID, projectID) VALUES $taskValues");
 					
-					header("Location: " . DOC_ROOT);
+					header("Location: " . DOC_ROOT . $region);
 				}		
 				
 				break;
@@ -187,7 +192,7 @@
 					}
 
 					
-					header("Location: " . DOC_ROOT);
+					header("Location: " . DOC_ROOT . $region);
 				}
 				break;
 			case 'delete':

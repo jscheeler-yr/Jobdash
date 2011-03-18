@@ -2,6 +2,7 @@
 	if (isset($_GET['logout'])) {
 			session_start();
 			$_SESSION['user'] = NULL;
+			$_SESSION['regionID'] = NULL;
 			header('Location: /Jobdash');
 	}
 		
@@ -16,7 +17,11 @@
 			echo "false";
 		} else {
 			$_SESSION['user'] = $checkUser;
-			echo $checkUser;
+			$regionID = queryArray("SELECT regionID FROM users WHERE id='$checkUser'");
+			$rid = $regionID['regionID'];
+			$regionSQL = queryArray("SELECT name FROM region WHERE id='$rid'");
+			$region = strtolower(str_replace(" ", "", $regionSQL['name']));
+			echo $region;
 		}		
 	} else {
 ?>
@@ -42,7 +47,7 @@ $(document).ready(function() {
 				if (result == "false") {
 					$('#error').html('Either your username or password were incorrect.');
 				} else {
-					window.location = '/Jobdash';
+					window.location = '/Jobdash/'+result;
 				}
 			}
 		});

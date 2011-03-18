@@ -9,6 +9,22 @@
 		$userInfo = userInfo($user);
 		$user_perm = $userInfo['permissionsID'];
 		$regionID = $userInfo['regionID'];
+		$_SESSION['regionID'] = $regionID;
+		if (isset($_GET['region'])) {
+			$regionName = $_GET['region'];
+			$regionNameIDSQL = queryArray("SELECT id FROM region WHERE lower='$regionName'");
+			$regionNameID = $regionNameIDSQL['id'];
+		} else {
+			$regionNameID = $regionID;
+			$regionNameIDSQL = queryArray("SELECT lower FROM region WHERE id='$regionNameID'");
+			$regionName = $regionNameIDSQL['lower'];
+		}
+		
+		if (isset($_GET['view'])) {
+			$view = $_GET['view'];
+		} else {
+			$view = "project";
+		}
 	} else {
 		$loggedIn = false;
 	}
@@ -31,6 +47,7 @@
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/main.css" media="screen" />
+<link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/table.css" media="screen" />
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/demo_table_jui.css" media="screen" />
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/black-tie/jquery-ui-1.8.css" media="screen" /> 
 <link rel="stylesheet" href="<?php echo DOC_ROOT; ?>css/demo_table.css" media="screen" />

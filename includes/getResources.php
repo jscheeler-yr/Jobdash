@@ -1,7 +1,7 @@
 <?php
 	require_once('functions.php');
 	$gaSql['link'] = connect();
-	$sTable = "projects";
+	$sTable = "users";
 	$regionID = $_GET['regionID'];
 	/*
 	 * Script:    DataTables server-side script for PHP and MySQL
@@ -16,8 +16,7 @@
 	/* Array of database columns which should be read and sent back to DataTables. Use a space where
 	 * you want to insert a non-database field (for example a counter or static image)
 	 */
-	$aColumns = array( 'id', 'name', 'typeID', 'jobNumber','milestone');
-	
+	$aColumns = array( 'id', ' ', 'name', 'titleID', 'lastLoggedIn');	
 	/* Indexed column (used for fast and accurate table cardinality) */
 	$sIndexColumn = "id";
 	
@@ -69,7 +68,7 @@
 	 * word by word on any field. It's possible to do here, but concerned about efficiency
 	 * on very large tables, and MySQL's regex functionality is very limited
 	 */
-	$sWhere = "WHERE regionID='$regionID' AND archive='N'";
+	$sWhere = "WHERE regionID='$regionID'";
 	if (isset($_GET['sSearch'])) {
 		if ( $_GET['sSearch'] != "" )
 			{
@@ -99,9 +98,9 @@
 	 * Get data to display
 	 */
 	$colCount = count($aColumns);
-	$columns = "";
+	$columns = "firstname,lastname,";
 	foreach($aColumns as $column) {
-		if ($column != " ") {
+		if (($column != " ") && ($column != "name")) {
 			$columns .= $column . ",";
 		}
 	}
@@ -138,16 +137,26 @@
 		$row = array();
 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
 		{
-			if ( $aColumns[$i] == "typeID" )
-			{
-				/* Special output formatting for 'version' column */
-				//Get type name from project_type table
-				$typeID = $aRow[$aColumns[$i]];
-				$type = mysql_fetch_array(mysql_query("SELECT name FROM project_types WHERE id='$typeID'"));
-				$row[] = $type['name'];//($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
-			}
-			else if ( $aColumns[$i] != 'milestone' )
-			{
+			if ($aColumns[$i] == 'titleID' ){
+				$titleID = $aRow[$aColumns[$i]];
+				$type = mysql_fetch_array(mysql_query("SELECT full FROM user_titles WHERE id='$titleID'"));
+				$row[] = $type['full'];//($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
+			} else if ($aColumns[$i] == 'lastLoggedIn' ) {
+				if ($aRow[ $aColumns[$i] ] != NULL) {
+					list($date, $time) = explode(" ", $aRow[ $aColumns[$i] ]);
+					list($year, $month, $day) = explode("-", $date);
+					list($hour, $minute, $second) = explode(":", $time);
+					
+					$lastLoggedIn = date("D M j g:ia");
+					$row[] = $lastLoggedIn; 
+				} else {
+					$row[] ="";
+				}
+				$row[] = "<img src=\"images/details_open.png\">";
+			} else if ($aColumns[$i] == 'name' ) {
+				$name = $aRow['lastname'] . ", " .$aRow['firstname'];
+				$row[] = $name;
+			} else if ( $aColumns[$i] != ' ' ){
 				/* General output */
 				if (strlen($aRow[ $aColumns[$i] ]) >= 30) {
 					$row[] = substr($aRow[ $aColumns[$i] ], 0, 30) . "...";
@@ -155,20 +164,11 @@
 					$row[] = $aRow[ $aColumns[$i] ];
 				}
 			}
-			else if ( $aColumns[$i] == 'milestone' ) {
-				//Get the milestone date
-				$projectID = $aRow['id'];
-				$milestoneSQL = mysql_fetch_array(mysql_query("SELECT id, milestone, milestone_typeID FROM milestones WHERE projectID='$projectID' ORDER BY milestone ASC LIMIT 1"));
-				$milestone = $aRow['milestone'];
-				list($year, $month, $day) = explode("-", $milestone);
-				$ms = $day . "/" . $month . "/" . $year;
-				$row[] = $ms;
-				
-				//Get the milestone type
-				$milestoneID = $milestoneSQL['milestone_typeID'];
-				$milestoneType = mysql_fetch_array(mysql_query("SELECT name FROM milestone_types WHERE id='$milestoneID' LIMIT 1"));
-				$row[] = $milestoneType['name'];
-				$row[] = "<img src=\"images/details_open.png\">";
+			else if ( $aColumns[$i] == ' ' ) {
+				$resourceID = $aRow['id'];
+				$tasksByResource = queryArray("SELECT COUNT(*) FROM tasks WHERE userID='$resourceID'");
+				$numTasks = $tasksByResource['COUNT(*)'];
+				$row[] = $numTasks;
 			}
 			
 		}

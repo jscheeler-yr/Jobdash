@@ -48,7 +48,11 @@
 	
 	function queryArray($query) {
 		$result = queryMySQL($query);
-		return mysql_fetch_array($result);
+		if (!$result) {
+			return false;
+		} else {
+			return mysql_fetch_array($result);
+		}
 	}
 	//login function
 	function login($email, $password) {
